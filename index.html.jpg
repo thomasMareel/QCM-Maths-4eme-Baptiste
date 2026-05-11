@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM Mathématiques — Baptiste (6e · 5e · 4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+  :root {
+    --paper: #f4ede0;
+    --paper-deep: #ebe1ce;
+    --ink: #1a2540;
+    --ink-soft: #3c4663;
+    --accent: #d94f37;
+    --accent-deep: #b03826;
+    --success: #2f6b3f;
+    --rule: #c9bca0;
+    --shadow: 0 1px 0 rgba(26,37,64,.04), 0 12px 28px -16px rgba(26,37,64,.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  body {
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(26,37,64,.06) 31px, rgba(26,37,64,.06) 32px),
+      radial-gradient(ellipse at top left, rgba(217,79,55,.04), transparent 50%);
+    padding: 40px 20px 80px;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* ====== EN-TÊTE ====== */
+  .masthead {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 20px 0 16px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .masthead-left .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .masthead-left h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(28px, 5vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .masthead-left h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .masthead-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* ====== ÉCRAN D'ACCUEIL ====== */
+  .intro-card {
+    background: #fffaf0;
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow);
+    padding: 40px 36px;
+    border-radius: 2px;
+    position: relative;
+  }
+
+  .intro-card::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 6px;
+    background: var(--accent);
+  }
+
+  .intro-card h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .intro-card p {
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+
+  .rules {
+    list-style: none;
+    margin: 24px 0;
+    border-top: 1px dashed var(--rule);
+    border-bottom: 1px dashed var(--rule);
+    padding: 16px 0;
+  }
+
+  .rules li {
+    padding: 8px 0;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+
+  .rules li::before {
+    content: counter(rule, decimal-leading-zero);
+    counter-increment: rule;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .rules { counter-reset: rule; }
+
+  .name-field {
+    margin: 24px 0;
+  }
+
+  .name-field label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .name-field input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--ink);
+    padding: 8px 0;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  .name-field input:focus { border-color: var(--accent); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 16px 28px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: transform .15s, background .2s;
+    box-shadow: 0 4px 0 var(--accent-deep);
+  }
+
+  .btn:hover {
+    background: var(--accent);
+    transform: translate(0, -1px);
+  }
+
+  .btn:active {
+    transform: translate(0, 2px);
+    box-shadow: 0 2px 0 var(--accent-deep);
+  }
+
+  .btn.secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    box-shadow: none;
+  }
+
+  .btn.secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ====== ÉCRAN QUIZ ====== */
+  .quiz-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    padding: 16px 0 14px;
+    margin: -8px 0 28px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-wrap {
+    flex: 1;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--paper-deep);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width .3s ease;
+  }
+
+  .timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 8px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    background: #fffaf0;
+    min-width: 110px;
+    text-align: center;
+  }
+
+  .timer.warning { color: var(--accent); border-color: var(--accent); }
+  .timer.critical {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .question-card {
+    background: #fffaf0;
+    border: 1px solid var(--rule);
+    padding: 32px 32px 28px;
+    margin-bottom: 24px;
+    border-radius: 2px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  .question-card .level-tag {
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--paper);
+    padding: 2px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--rule);
+  }
+
+  .question-card .q-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  .question-card .q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .options {
+    display: grid;
+    gap: 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all .15s;
+    background: #fff;
+    font-size: 16px;
+  }
+
+  .option:hover {
+    border-color: var(--ink);
+    transform: translateX(2px);
+  }
+
+  .option input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--ink-soft);
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color .15s;
+  }
+
+  .option input:checked {
+    border-color: var(--accent);
+    border-width: 5px;
+  }
+
+  .option:has(input:checked) {
+    border-color: var(--accent);
+    background: rgba(217,79,55,.04);
+  }
+
+  .option .opt-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .option:has(input:checked) .opt-letter { color: var(--accent); }
+
+  .option .opt-text { flex: 1; }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    gap: 12px;
+  }
+
+  /* ====== ÉCRAN RÉSULTATS ====== */
+  .results-hero {
+    text-align: center;
+    padding: 48px 24px 40px;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 40px;
+  }
+
+  .results-hero .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .results-hero .score-big {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(80px, 16vw, 140px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+
+  .results-hero .score-big .sep {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .results-hero .score-big .max {
+    font-size: 0.5em;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  .results-hero .verdict {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    margin-bottom: 48px;
+    border: 1px solid var(--rule);
+  }
+
+  .stat {
+    background: #fffaf0;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .stat .stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .stat .stat-value.good { color: var(--success); }
+  .stat .stat-value.bad { color: var(--accent); }
+
+  .review-section h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 28px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .review-section .subtitle {
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .review-item {
+    background: #fffaf0;
+    border: 1px solid var(--rule);
+    border-left: 4px solid;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    border-radius: 2px;
+  }
+
+  .review-item.correct { border-left-color: var(--success); }
+  .review-item.wrong { border-left-color: var(--accent); }
+  .review-item.skipped { border-left-color: var(--ink-soft); }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .review-header .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+
+  .review-header .status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .status.correct { color: var(--success); background: rgba(47,107,63,.1); }
+  .status.wrong { color: var(--accent); background: rgba(217,79,55,.1); }
+  .status.skipped { color: var(--ink-soft); background: rgba(60,70,99,.08); }
+
+  .review-item .q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .review-answers {
+    font-size: 14px;
+    color: var(--ink-soft);
+    display: grid;
+    gap: 4px;
+  }
+
+  .review-answers strong { color: var(--ink); font-weight: 600; }
+  .review-answers .answer-correct { color: var(--success); font-weight: 600; }
+  .review-answers .answer-wrong { color: var(--accent); text-decoration: line-through; }
+
+  .end-actions {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  /* ====== UTILS ====== */
+  .hidden { display: none !important; }
+
+  /* MATH RENDERING */
+  .math {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+  }
+  .frac {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 2px;
+  }
+  .frac .num {
+    display: block;
+    border-bottom: 1.5px solid currentColor;
+    padding: 0 4px 1px;
+    font-size: 0.9em;
+  }
+  .frac .den {
+    display: block;
+    padding: 1px 4px 0;
+    font-size: 0.9em;
+  }
+  sup { font-size: 0.75em; vertical-align: super; line-height: 0; }
+  sub { font-size: 0.75em; vertical-align: sub; line-height: 0; }
+
+  /* ====== TEASER NIVEAU 2 SUR L'ACCUEIL ====== */
+  .level2-teaser {
+    margin: 24px 0;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, rgba(26,37,64,.92), rgba(26,37,64,.98));
+    color: var(--paper);
+    border-radius: 2px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .level2-teaser::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--accent);
+  }
+
+  .teaser-badge {
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    margin-top: 2px;
+  }
+
+  .teaser-content { flex: 1; font-size: 14px; line-height: 1.5; }
+  .teaser-content strong { display: block; margin-bottom: 4px; color: var(--paper); font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; }
+  .teaser-content span { color: rgba(244,237,224,.7); }
+
+  /* Champ requis */
+  .name-field .required { color: var(--accent); }
+  .name-error {
+    display: none;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .name-error.show { display: block; }
+  .name-field input.error { border-color: var(--accent); }
+
+  /* ====== ÉCRAN D'AVERTISSEMENT BONUS ====== */
+  .warning-card {
+    background: #fffaf0;
+    border: 1px solid var(--ink);
+    border-left: 6px solid var(--accent);
+    padding: 44px 40px;
+    border-radius: 2px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  .warning-card .warning-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .warning-card h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 38px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .warning-card h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
+
+  .warning-card .intro-text {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .warning-points {
+    display: grid;
+    gap: 14px;
+    margin: 28px 0;
+    padding: 20px 0;
+    border-top: 1px dashed var(--rule);
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  .warning-point {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .warning-point .icon {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 14px;
+  }
+
+  .warning-point .text { flex: 1; padding-top: 4px; font-size: 15px; line-height: 1.5; }
+  .warning-point .text strong { color: var(--ink); }
+
+  .warning-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .bonus-cta {
+    margin-top: 32px;
+    padding: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bonus-cta::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(217,79,55,.25), transparent 70%);
+    pointer-events: none;
+  }
+
+  .bonus-cta .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .bonus-cta h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+
+  .bonus-cta h3 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .bonus-cta p {
+    color: rgba(244,237,224,.75);
+    margin-bottom: 20px;
+    position: relative;
+    max-width: 520px;
+  }
+
+  .bonus-cta .btn {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 0 var(--accent-deep);
+    position: relative;
+  }
+
+  .bonus-cta .btn:hover {
+    background: #fff;
+    color: var(--ink);
+  }
+
+  /* Bandeau "Mode Bonus" sur l'écran quiz */
+  body.bonus-mode .masthead-left h1 em { color: var(--accent); }
+  body.bonus-mode {
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(26,37,64,.06) 31px, rgba(26,37,64,.06) 32px),
+      radial-gradient(ellipse at top right, rgba(217,79,55,.08), transparent 50%);
+  }
+
+  .bonus-banner {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 20px;
+    margin: -8px 0 24px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .bonus-banner .bonus-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .bonus-banner .bonus-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: rgba(244,237,224,.75);
+  }
+
+  .question-card.bonus-card {
+    border-color: var(--ink);
+    border-left: 4px solid var(--accent);
+  }
+
+  .question-card.bonus-card .level-tag {
+    color: var(--accent);
+    border-color: var(--ink);
+    font-weight: 600;
+  }
+
+  .question-card.bonus-card .q-text {
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  /* Bloc indication dans le compte-rendu bonus */
+  .review-hint {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: rgba(26,37,64,.04);
+    border-left: 2px solid var(--ink-soft);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .review-hint strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .review-hint .step-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 2px;
+  }
+
+  .review-hint .formula {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    padding: 2px 6px;
+    background: rgba(217,79,55,.08);
+    border-radius: 2px;
+  }
+
+  /* Schémas SVG dans les corrections */
+  .review-schema {
+    margin: 14px 0 0;
+    padding: 16px;
+    background: #fffefa;
+    border: 1px dashed var(--rule);
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .review-schema svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .review-schema .schema-caption {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Bouton de téléchargement PDF */
+  .download-cta {
+    margin-top: 40px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #fffaf0, #f4ede0);
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .download-cta .download-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .download-cta .download-text { flex: 1; min-width: 200px; }
+  .download-cta .download-text strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .download-cta .download-text span {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .download-cta .download-text .recommend {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 8px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+
+  /* Section bonus dans les résultats finaux */
+  .bonus-results-section {
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 2px solid var(--ink);
+  }
+
+  .bonus-score-line {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .bonus-score-line .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .bonus-score-line .score {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .bonus-score-line .score .sep {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .bonus-score-line .score .max {
+    font-size: 0.5em;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 20px 14px 60px; }
+    .intro-card, .question-card { padding: 24px 20px; }
+    .quiz-header { flex-direction: column; align-items: stretch; }
+    .timer { text-align: center; }
+    .nav-buttons { flex-direction: column-reverse; }
+    .nav-buttons .btn { width: 100%; justify-content: center; }
+    .bonus-cta { padding: 22px; }
+    .bonus-cta h3 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <div class="eyebrow">Évaluation · Spécial Baptiste</div>
+      <h1>Mathématiques <em>en 30 questions</em></h1>
+    </div>
+    <div class="masthead-right">
+      6<sup>e</sup> · 5<sup>e</sup> · 4<sup>e</sup><br>
+      Durée — 60 min<br>
+      Notation /20
+    </div>
+  </header>
+
+  <!-- ========== ÉCRAN 1 : ACCUEIL ========== -->
+  <section id="screen-intro">
+    <div class="intro-card">
+      <h2>Avant de commencer</h2>
+      <p>Ce QCM couvre le programme de mathématiques du collège, du cycle 3 au début du cycle 4. Il comprend 30 questions réparties équitablement entre les niveaux 6<sup>e</sup>, 5<sup>e</sup> et 4<sup>e</sup>.</p>
+
+      <ol class="rules">
+        <li>Tu as <strong>60 minutes</strong> pour terminer. Le test s'arrête automatiquement à zéro.</li>
+        <li>Une seule bonne réponse par question. Aucune réponse n'enlève des points.</li>
+        <li>Tu peux revenir en arrière pour modifier une réponse à tout moment.</li>
+        <li>À la fin, tu auras une <strong>note sur 20</strong> et le détail des bonnes réponses.</li>
+      </ol>
+
+      <div class="level2-teaser">
+        <div class="teaser-badge">★ Niveau 2</div>
+        <div class="teaser-content">
+          <strong>Un second niveau t'attend après ce QCM.</strong>
+          <span>10 problèmes type Brevet (Thalès, Pythagore, équations…) — 1h30, noté sur 20. Plus difficile, à toi de relever le défi !</span>
+        </div>
+      </div>
+
+      <div class="name-field">
+        <label for="student-name">Ton prénom <span class="required">*</span></label>
+        <input type="text" id="student-name" value="Baptiste" placeholder="Écris ton prénom ici…" autocomplete="off" required>
+        <div class="name-error" id="name-error">Merci d'indiquer ton prénom pour commencer.</div>
+      </div>
+
+      <button class="btn" id="btn-start">Commencer l'épreuve →</button>
+    </div>
+  </section>
+
+  <!-- ========== ÉCRAN 2 : QUIZ ========== -->
+  <section id="screen-quiz" class="hidden">
+    <div class="quiz-header">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progress-text">Question 1 / 30</span>
+          <span id="progress-percent">3%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+
+    <div id="question-container"></div>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" id="btn-prev">← Précédent</button>
+      <button class="btn" id="btn-next">Suivant →</button>
+    </div>
+  </section>
+
+  <!-- ========== ÉCRAN AVERTISSEMENT BONUS ========== -->
+  <section id="screen-bonus-intro" class="hidden">
+    <div class="warning-card">
+      <div class="warning-eyebrow">★ Niveau 2 — Avertissement</div>
+      <h2>Tu entres en <em>terrain plus difficile</em></h2>
+      <p class="intro-text">Ces 10 problèmes sont du <strong>niveau Brevet (3<sup>e</sup>)</strong>. Ils demandent de raisonner, pas seulement de calculer. Prends ton temps.</p>
+
+      <div class="warning-points">
+        <div class="warning-point">
+          <div class="icon">1</div>
+          <div class="text"><strong>Lis chaque énoncé deux fois.</strong> Les problèmes ne tombent pas tout cuits — il faut repérer quel théorème utiliser (Thalès ? Pythagore ? équation ?).</div>
+        </div>
+        <div class="warning-point">
+          <div class="icon">2</div>
+          <div class="text"><strong>Tu as 1h30</strong>, soit environ 9 minutes par problème. C'est suffisant pour réfléchir au brouillon avant de répondre.</div>
+        </div>
+        <div class="warning-point">
+          <div class="icon">3</div>
+          <div class="text"><strong>Un brouillon est indispensable.</strong> Prends une feuille et un crayon : pose tes calculs, fais un schéma si l'énoncé est géométrique.</div>
+        </div>
+        <div class="warning-point">
+          <div class="icon">4</div>
+          <div class="text"><strong>Ne te décourage pas si tu bloques.</strong> Passe à la question suivante, tu pourras revenir en arrière. La correction sera détaillée à la fin avec schémas.</div>
+        </div>
+        <div class="warning-point">
+          <div class="icon">5</div>
+          <div class="text"><strong>Note finale sur 20.</strong> Chaque bonne réponse vaut 2 points.</div>
+        </div>
+      </div>
+
+      <div class="warning-actions">
+        <button class="btn secondary" id="btn-back-results">← Retour aux résultats</button>
+        <button class="btn" id="btn-start-bonus-confirm">Je suis prêt(e), c'est parti →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ÉCRAN 2 BIS : QUIZ BONUS (avec timer 1h30) ========== -->
+  <section id="screen-bonus" class="hidden">
+    <div class="bonus-banner">
+      <div>
+        <div class="bonus-label">Niveau 2 · Brevet</div>
+        <div class="bonus-sub">10 problèmes — 1h30 chrono</div>
+      </div>
+      <div class="timer" id="bonus-timer" style="background: rgba(244,237,224,.1); color: var(--paper); border-color: rgba(244,237,224,.3);">1:30:00</div>
+    </div>
+
+    <div class="quiz-header" style="margin-top: 0; padding-top: 0; border-bottom: 1px solid var(--ink);">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="bonus-progress-text">Question 1 / 10</span>
+          <span id="bonus-progress-percent">10%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="bonus-progress-fill"></div></div>
+      </div>
+    </div>
+
+    <div id="bonus-question-container"></div>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" id="btn-bonus-prev">← Précédent</button>
+      <button class="btn" id="btn-bonus-next">Suivant →</button>
+    </div>
+  </section>
+
+  <!-- ========== ÉCRAN 3 : RÉSULTATS ========== -->
+  <section id="screen-results" class="hidden">
+    <div class="results-hero">
+      <div class="eyebrow">Résultat final</div>
+      <div class="score-big">
+        <span id="final-score">0</span><span class="sep">/</span><span class="max">20</span>
+      </div>
+      <div class="verdict" id="verdict">—</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-label">Bonnes</div>
+        <div class="stat-value good" id="stat-correct">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Fausses</div>
+        <div class="stat-value bad" id="stat-wrong">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Sans rép.</div>
+        <div class="stat-value" id="stat-skipped">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Temps</div>
+        <div class="stat-value" id="stat-time">—</div>
+      </div>
+    </div>
+
+    <div class="review-section">
+      <h2>Compte-rendu détaillé</h2>
+      <p class="subtitle">Voici les bonnes réponses pour chaque question.</p>
+      <div id="review-list"></div>
+    </div>
+
+    <!-- Bloc CTA Bonus, affiché seulement si le niveau n'a pas encore été joué -->
+    <div id="bonus-cta-wrapper"></div>
+
+    <!-- Bloc résultats bonus, affiché seulement après avoir joué le bonus -->
+    <div id="bonus-results-wrapper"></div>
+
+    <!-- Bloc téléchargement PDF -->
+    <div class="download-cta" id="download-cta">
+      <div class="download-icon">↓</div>
+      <div class="download-text">
+        <strong>Télécharge tes résultats en PDF</strong>
+        <span>Le fichier contient ton prénom, la date, tes notes et la correction complète avec schémas.</span>
+        <span class="recommend">Recommandé — à envoyer à ton grand frère</span>
+      </div>
+      <button class="btn" id="btn-download-pdf">Télécharger le PDF</button>
+    </div>
+
+    <div class="end-actions">
+      <button class="btn secondary" id="btn-restart">Recommencer l'épreuve</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ============================================================
+//  BANQUE DE QUESTIONS — 30 questions, 10 par niveau
+//  Format : { niveau, question (HTML autorisé), options[4], bonneReponse (index 0-3) }
+// ============================================================
+const QUESTIONS = [
+  // ============ 6e — 10 questions ============
+  { niveau: "6ᵉ",
+    question: "Combien font 7 × 8 ?",
+    options: ["54", "56", "63", "48"],
+    correct: 1 },
+
+  { niveau: "6ᵉ",
+    question: "Quel est le résultat de 125 + 76 ?",
+    options: ["191", "201", "211", "199"],
+    correct: 1 },
+
+  { niveau: "6ᵉ",
+    question: 'Comment lit-on le nombre <span class="math">3 504</span> ?',
+    options: ["Trois mille cinq cent quatre", "Trente-cinq mille quatre", "Trois cent cinquante-quatre", "Trois mille cinq cent quarante"],
+    correct: 0 },
+
+  { niveau: "6ᵉ",
+    question: 'Quelle est la valeur du chiffre 7 dans <span class="math">4 752</span> ?',
+    options: ["7", "70", "700", "7 000"],
+    correct: 2 },
+
+  { niveau: "6ᵉ",
+    question: 'Combien font <span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">1</span><span class="den">4</span></span> ?',
+    options: ['<span class="frac"><span class="num">2</span><span class="den">6</span></span>', '<span class="frac"><span class="num">3</span><span class="den">4</span></span>', '<span class="frac"><span class="num">1</span><span class="den">3</span></span>', '<span class="frac"><span class="num">2</span><span class="den">4</span></span>'],
+    correct: 1 },
+
+  { niveau: "6ᵉ",
+    question: "Combien de côtés a un hexagone ?",
+    options: ["5", "6", "7", "8"],
+    correct: 1 },
+
+  { niveau: "6ᵉ",
+    question: "Quel est le périmètre d'un carré de côté 5 cm ?",
+    options: ["10 cm", "15 cm", "20 cm", "25 cm"],
+    correct: 2 },
+
+  { niveau: "6ᵉ",
+    question: "Combien de minutes y a-t-il dans 2 h 15 ?",
+    options: ["125 min", "135 min", "145 min", "215 min"],
+    correct: 1 },
+
+  { niveau: "6ᵉ",
+    question: "Quel est le résultat de 144 ÷ 12 ?",
+    options: ["10", "11", "12", "14"],
+    correct: 2 },
+
+  { niveau: "6ᵉ",
+    question: 'Quelle est l\'écriture décimale de <span class="frac"><span class="num">3</span><span class="den">4</span></span> ?',
+    options: ["0,25", "0,5", "0,75", "1,33"],
+    correct: 2 },
+
+  // ============ 5e — 10 questions ============
+  { niveau: "5ᵉ",
+    question: "Quel est le résultat de (−5) + (+8) ?",
+    options: ["−13", "−3", "+3", "+13"],
+    correct: 2 },
+
+  { niveau: "5ᵉ",
+    question: "Quel est le résultat de (−7) × (−4) ?",
+    options: ["−28", "+28", "−11", "+11"],
+    correct: 1 },
+
+  { niveau: "5ᵉ",
+    question: 'Combien font <span class="frac"><span class="num">2</span><span class="den">3</span></span> × <span class="frac"><span class="num">9</span><span class="den">4</span></span> ?',
+    options: ['<span class="frac"><span class="num">11</span><span class="den">12</span></span>', '<span class="frac"><span class="num">3</span><span class="den">2</span></span>', '<span class="frac"><span class="num">18</span><span class="den">12</span></span>', '<span class="frac"><span class="num">6</span><span class="den">7</span></span>'],
+    correct: 1 },
+
+  { niveau: "5ᵉ",
+    question: "Calcule : 3 × (4 + 5) − 2.",
+    options: ["19", "25", "15", "21"],
+    correct: 1 },
+
+  { niveau: "5ᵉ",
+    question: "Si 30 % d'une classe de 30 élèves sont des filles, combien y a-t-il de filles ?",
+    options: ["6", "9", "10", "15"],
+    correct: 1 },
+
+  { niveau: "5ᵉ",
+    question: "Dans un triangle, la somme des angles vaut :",
+    options: ["90°", "180°", "270°", "360°"],
+    correct: 1 },
+
+  { niveau: "5ᵉ",
+    question: "Quelle est l'aire d'un rectangle de longueur 8 cm et de largeur 5 cm ?",
+    options: ["13 cm²", "26 cm²", "40 cm²", "45 cm²"],
+    correct: 2 },
+
+  { niveau: "5ᵉ",
+    question: 'Quel est le volume d\'un cube d\'arête 3 cm ?',
+    options: ["9 cm³", "18 cm³", "27 cm³", "81 cm³"],
+    correct: 2 },
+
+  { niveau: "5ᵉ",
+    question: "Une voiture parcourt 240 km en 3 heures à vitesse constante. Quelle est sa vitesse moyenne ?",
+    options: ["60 km/h", "70 km/h", "80 km/h", "90 km/h"],
+    correct: 2 },
+
+  { niveau: "5ᵉ",
+    question: "Réduis l'expression : 3x + 5x − 2x.",
+    options: ["6x", "10x", "6", "x + 6"],
+    correct: 0 },
+
+  // ============ 4e — 10 questions ============
+  { niveau: "4ᵉ",
+    question: 'Combien font <span class="math">2<sup>5</sup></span> ?',
+    options: ["10", "16", "25", "32"],
+    correct: 3 },
+
+  { niveau: "4ᵉ",
+    question: 'Combien font <span class="math">(−3)<sup>2</sup></span> ?',
+    options: ["−9", "−6", "+6", "+9"],
+    correct: 3 },
+
+  { niveau: "4ᵉ",
+    question: 'Quelle est l\'écriture scientifique de <span class="math">52 000</span> ?',
+    options: ['<span class="math">5,2 × 10<sup>3</sup></span>', '<span class="math">52 × 10<sup>3</sup></span>', '<span class="math">5,2 × 10<sup>4</sup></span>', '<span class="math">0,52 × 10<sup>5</sup></span>'],
+    correct: 2 },
+
+  { niveau: "4ᵉ",
+    question: "Développe : 4(x + 3).",
+    options: ["4x + 3", "x + 12", "4x + 12", "4x + 7"],
+    correct: 2 },
+
+  { niveau: "4ᵉ",
+    question: 'Quelle est la solution de l\'équation <span class="math">3x − 5 = 16</span> ?',
+    options: ["x = 3", "x = 5", "x = 7", "x = 21"],
+    correct: 2 },
+
+  { niveau: "4ᵉ",
+    question: 'Selon le théorème de Pythagore, dans un triangle rectangle d\'hypoténuse 5 et d\'un côté 3, l\'autre côté vaut :',
+    options: ["2", "4", '<span class="math">√34</span>', "8"],
+    correct: 1 },
+
+  { niveau: "4ᵉ",
+    question: "Deux droites parallèles coupées par une sécante forment des angles alternes-internes qui sont :",
+    options: ["Complémentaires", "Supplémentaires", "Égaux", "Opposés"],
+    correct: 2 },
+
+  { niveau: "4ᵉ",
+    question: 'Quelle est la médiane de la série : <span class="math">3 ; 5 ; 7 ; 8 ; 12</span> ?',
+    options: ["5", "7", "8", "35"],
+    correct: 1 },
+
+  { niveau: "4ᵉ",
+    question: "Un produit coûte 80 €. Après une augmentation de 15 %, son nouveau prix est :",
+    options: ["88 €", "92 €", "95 €", "120 €"],
+    correct: 1 },
+
+  { niveau: "4ᵉ",
+    question: 'Quelle est l\'image de <span class="math">x = 4</span> par la fonction <span class="math">f(x) = 2x − 3</span> ?',
+    options: ["5", "8", "11", "−5"],
+    correct: 0 }
+];
+
+// ============================================================
+//  BANQUE BONUS — 10 problèmes niveau Brevet (3e)
+//  Format : { question, options, correct, solution (HTML détaillé), schema (SVG optionnel) }
+// ============================================================
+const BONUS_QUESTIONS = [
+  // 1 — Pythagore (réciproque)
+  { question: 'Un triangle <span class="math">ABC</span> est tel que <span class="math">AB = 6 cm</span>, <span class="math">AC = 8 cm</span> et <span class="math">BC = 10 cm</span>. Que peut-on en déduire ?',
+    options: [
+      'Le triangle est équilatéral',
+      'Le triangle est rectangle en A',
+      'Le triangle est rectangle en B',
+      'Le triangle n\'a rien de particulier'
+    ],
+    correct: 1,
+    solution: `
+      <span class="step-label">Étape 1 — Identifier le plus long côté</span><br>
+      Le plus long côté est <span class="formula">BC = 10 cm</span>. S'il s'agit d'un triangle rectangle, ce serait l'hypoténuse, opposée au sommet <strong>A</strong>.
+      <span class="step-label">Étape 2 — Calculer les deux membres</span><br>
+      • <span class="formula">BC² = 10² = 100</span><br>
+      • <span class="formula">AB² + AC² = 6² + 8² = 36 + 64 = 100</span>
+      <span class="step-label">Étape 3 — Conclure</span><br>
+      Puisque <span class="formula">BC² = AB² + AC²</span>, d'après la <strong>réciproque du théorème de Pythagore</strong>, le triangle ABC est rectangle en A.
+    `,
+    schema: `
+      <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangle rectangle ABC">
+        <polygon points="40,140 40,40 200,140" fill="rgba(217,79,55,0.08)" stroke="#1a2540" stroke-width="1.5"/>
+        <rect x="40" y="125" width="15" height="15" fill="none" stroke="#1a2540" stroke-width="1.2"/>
+        <text x="32" y="30" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">A</text>
+        <text x="32" y="158" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">B</text>
+        <text x="206" y="148" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">C</text>
+        <text x="14" y="95" font-family="Inter,sans-serif" font-size="11" fill="#3c4663">6 cm</text>
+        <text x="110" y="158" font-family="Inter,sans-serif" font-size="11" fill="#3c4663">8 cm</text>
+        <text x="120" y="80" font-family="Inter,sans-serif" font-size="11" fill="#d94f37" font-weight="600" transform="rotate(-32 120 80)">10 cm</text>
+      </svg>
+    ` },
+
+  // 2 — Thalès (calcul longueur)
+  { question: 'Dans un triangle <span class="math">ABC</span>, <span class="math">M</span> est sur [AB] et <span class="math">N</span> sur [AC] avec <span class="math">(MN) // (BC)</span>. On a <span class="math">AM = 3</span>, <span class="math">AB = 7,5</span> et <span class="math">BC = 10</span>. Quelle est la longueur <span class="math">MN</span> ?',
+    options: ['3 cm', '4 cm', '5 cm', '7,5 cm'],
+    correct: 1,
+    solution: `
+      <span class="step-label">Étape 1 — Identifier la configuration</span><br>
+      M ∈ [AB], N ∈ [AC] et <span class="formula">(MN) // (BC)</span> : c'est la configuration de Thalès « triangle ».
+      <span class="step-label">Étape 2 — Écrire les rapports égaux</span><br>
+      D'après le théorème de Thalès : <span class="formula">AM/AB = AN/AC = MN/BC</span>
+      <span class="step-label">Étape 3 — Calculer MN</span><br>
+      <span class="formula">MN/BC = AM/AB</span>, donc <span class="formula">MN = BC × AM / AB = 10 × 3 / 7,5 = 30 / 7,5 = 4 cm</span>.
+    `,
+    schema: `
+      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Configuration de Thalès">
+        <polygon points="140,30 50,170 230,170" fill="rgba(217,79,55,0.05)" stroke="#1a2540" stroke-width="1.5"/>
+        <line x1="104" y1="86" x2="176" y2="86" stroke="#d94f37" stroke-width="2"/>
+        <text x="135" y="22" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">A</text>
+        <text x="38" y="183" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">B</text>
+        <text x="234" y="183" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">C</text>
+        <text x="92" y="82" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="#d94f37">M</text>
+        <text x="180" y="82" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="#d94f37">N</text>
+        <text x="135" y="100" font-family="Inter,sans-serif" font-size="10" fill="#d94f37" font-weight="600">MN = ?</text>
+        <text x="120" y="190" font-family="Inter,sans-serif" font-size="11" fill="#3c4663">BC = 10</text>
+      </svg>
+    ` },
+
+  // 3 — Thalès (réciproque, parallélisme)
+  { question: 'Sur la figure, <span class="math">O</span>, <span class="math">A</span>, <span class="math">B</span> sont alignés et <span class="math">O</span>, <span class="math">C</span>, <span class="math">D</span> aussi. On a <span class="math">OA = 4</span>, <span class="math">OB = 10</span>, <span class="math">OC = 6</span>, <span class="math">OD = 15</span>. Les droites <span class="math">(AC)</span> et <span class="math">(BD)</span> sont-elles parallèles ?',
+    options: [
+      'Oui, car OA/OB = OC/OD',
+      'Non, car OA/OB ≠ OC/OD',
+      'On ne peut pas conclure',
+      'Oui, mais seulement si les points sont du même côté'
+    ],
+    correct: 0,
+    solution: `
+      <span class="step-label">Étape 1 — Calculer les deux rapports</span><br>
+      • <span class="formula">OA/OB = 4/10 = 0,4</span><br>
+      • <span class="formula">OC/OD = 6/15 = 0,4</span>
+      <span class="step-label">Étape 2 — Vérifier l'alignement</span><br>
+      Les points O, A, B sont alignés dans cet ordre, et O, C, D aussi.
+      <span class="step-label">Étape 3 — Appliquer la réciproque de Thalès</span><br>
+      Comme les rapports sont égaux <em>et</em> les points alignés dans le même ordre, d'après la <strong>réciproque du théorème de Thalès</strong> : <span class="formula">(AC) // (BD)</span>.
+    `,
+    schema: `
+      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Configuration Thalès avec deux droites">
+        <line x1="40" y1="100" x2="250" y2="100" stroke="#1a2540" stroke-width="1.2"/>
+        <line x1="40" y1="100" x2="240" y2="40" stroke="#1a2540" stroke-width="1.2"/>
+        <line x1="104" y1="81.4" x2="124" y2="125" stroke="#d94f37" stroke-width="1.8"/>
+        <line x1="200" y1="52.9" x2="250" y2="160" stroke="#d94f37" stroke-width="1.8"/>
+        <circle cx="40" cy="100" r="3" fill="#1a2540"/>
+        <text x="28" y="115" font-family="Fraunces,serif" font-size="14" font-style="italic" fill="#1a2540">O</text>
+        <text x="100" y="74" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="#1a2540">C</text>
+        <text x="200" y="46" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="#1a2540">D</text>
+        <text x="120" y="138" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="#1a2540">A</text>
+        <text x="250" y="170" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="#1a2540">B</text>
+      </svg>
+    ` },
+
+  // 4 — Problème concret avec Pythagore
+  { question: 'Une échelle de <span class="math">5 m</span> est appuyée contre un mur. Le pied de l\'échelle est à <span class="math">1,4 m</span> du mur. À quelle hauteur arrive le sommet de l\'échelle ? (Arrondi au cm)',
+    options: ['3,60 m', '4,20 m', '4,80 m', '5,20 m'],
+    correct: 2,
+    solution: `
+      <span class="step-label">Étape 1 — Modéliser</span><br>
+      L'échelle, le mur et le sol forment un triangle rectangle. Le mur est vertical, le sol horizontal : <strong>l'angle au pied du mur vaut 90°</strong>. L'échelle est l'hypoténuse.
+      <span class="step-label">Étape 2 — Appliquer Pythagore</span><br>
+      Si <em>h</em> est la hauteur cherchée : <span class="formula">échelle² = sol² + h²</span>, soit <span class="formula">5² = 1,4² + h²</span>.
+      <span class="step-label">Étape 3 — Résoudre</span><br>
+      <span class="formula">h² = 25 − 1,96 = 23,04</span><br>
+      <span class="formula">h = √23,04 ≈ 4,80 m</span>.
+    `,
+    schema: `
+      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Échelle contre un mur">
+        <line x1="60" y1="180" x2="240" y2="180" stroke="#3c4663" stroke-width="2"/>
+        <line x1="80" y1="180" x2="80" y2="40" stroke="#3c4663" stroke-width="2"/>
+        <line x1="80" y1="50" x2="150" y2="180" stroke="#d94f37" stroke-width="2.5"/>
+        <rect x="80" y="165" width="15" height="15" fill="none" stroke="#1a2540" stroke-width="1"/>
+        <text x="55" y="115" font-family="Inter,sans-serif" font-size="11" fill="#1a2540" font-weight="600">h = ?</text>
+        <text x="100" y="195" font-family="Inter,sans-serif" font-size="11" fill="#3c4663">1,4 m</text>
+        <text x="125" y="105" font-family="Inter,sans-serif" font-size="11" fill="#d94f37" font-weight="600" transform="rotate(60 125 105)">5 m</text>
+      </svg>
+    ` },
+
+  // 5 — Pourcentages composés
+  { question: 'Un objet coûte <span class="math">200 €</span>. Son prix augmente de <span class="math">20 %</span>, puis baisse de <span class="math">20 %</span>. Quel est son prix final ?',
+    options: ['200 €', '196 €', '192 €', '180 €'],
+    correct: 2,
+    solution: `
+      <span class="step-label">Piège classique !</span><br>
+      Beaucoup pensent que +20 % puis −20 % revient au prix initial. <strong>C'est faux</strong> : les pourcentages s'appliquent à des bases différentes.
+      <span class="step-label">Étape 1 — Augmentation de 20 %</span><br>
+      Coefficient multiplicateur : <span class="formula">1 + 20/100 = 1,20</span>.<br>
+      Prix après hausse : <span class="formula">200 × 1,20 = 240 €</span>.
+      <span class="step-label">Étape 2 — Baisse de 20 %</span><br>
+      Coefficient : <span class="formula">1 − 20/100 = 0,80</span>.<br>
+      Prix final : <span class="formula">240 × 0,80 = 192 €</span>.
+      <span class="step-label">Méthode rapide</span><br>
+      Coefficient global : <span class="formula">1,20 × 0,80 = 0,96</span>, soit une baisse globale de 4 %. Donc <span class="formula">200 × 0,96 = 192 €</span>.
+    `,
+    schema: null },
+
+  // 6 — Équation issue d'un problème
+  { question: 'Pierre a <span class="math">3</span> fois l\'âge de son fils. Dans <span class="math">12</span> ans, il aura <span class="math">2</span> fois son âge. Quel est l\'âge actuel du fils ?',
+    options: ['8 ans', '10 ans', '12 ans', '15 ans'],
+    correct: 2,
+    solution: `
+      <span class="step-label">Étape 1 — Choisir l'inconnue</span><br>
+      Soit <span class="formula">x</span> l'âge actuel du fils. Alors Pierre a <span class="formula">3x</span> ans aujourd'hui.
+      <span class="step-label">Étape 2 — Traduire « dans 12 ans »</span><br>
+      Dans 12 ans, le fils aura <span class="formula">x + 12</span>, Pierre aura <span class="formula">3x + 12</span>.
+      <span class="step-label">Étape 3 — Poser l'équation</span><br>
+      « Pierre aura 2 fois l'âge du fils » : <span class="formula">3x + 12 = 2(x + 12)</span>.
+      <span class="step-label">Étape 4 — Résoudre</span><br>
+      <span class="formula">3x + 12 = 2x + 24</span><br>
+      <span class="formula">3x − 2x = 24 − 12</span><br>
+      <span class="formula">x = 12</span><br>
+      <strong>Vérification</strong> : aujourd'hui fils = 12, Pierre = 36. Dans 12 ans : fils = 24, Pierre = 48 = 2 × 24. ✓
+    `,
+    schema: null },
+
+  // 7 — Fonction affine / proportionnalité
+  { question: 'Un taxi facture <span class="math">2,50 €</span> de prise en charge plus <span class="math">1,20 €</span> par kilomètre. Pour une course de <span class="math">15 €</span>, combien de kilomètres ont été parcourus ?',
+    options: ['10 km', '10,4 km', '12,5 km', '14,6 km'],
+    correct: 1,
+    solution: `
+      <span class="step-label">Étape 1 — Modéliser par une fonction affine</span><br>
+      Le prix en fonction de la distance <span class="formula">d</span> est :<br>
+      <span class="formula">P(d) = 1,20 × d + 2,50</span>
+      <span class="step-label">Étape 2 — Poser l'équation</span><br>
+      On cherche <span class="formula">d</span> tel que <span class="formula">P(d) = 15</span> :<br>
+      <span class="formula">1,20 × d + 2,50 = 15</span>
+      <span class="step-label">Étape 3 — Résoudre</span><br>
+      <span class="formula">1,20 × d = 15 − 2,50 = 12,50</span><br>
+      <span class="formula">d = 12,50 / 1,20 ≈ 10,42 km</span>
+    `,
+    schema: null },
+
+  // 8 — Statistiques (moyenne pondérée)
+  { question: 'Léa a obtenu <span class="math">12</span> à un devoir coefficient <span class="math">1</span> et <span class="math">14</span> à un devoir coefficient <span class="math">3</span>. Quelle est sa moyenne ?',
+    options: ['13', '13,5', '13,2', '14'],
+    correct: 1,
+    solution: `
+      <span class="step-label">Méthode — Moyenne pondérée</span><br>
+      Quand les notes ont des coefficients différents, chaque note est multipliée par son coefficient avant de diviser par la somme totale des coefficients :<br>
+      <span class="formula">Moyenne = (n₁ × c₁ + n₂ × c₂) / (c₁ + c₂)</span>
+      <span class="step-label">Application</span><br>
+      <span class="formula">M = (12 × 1 + 14 × 3) / (1 + 3)</span><br>
+      <span class="formula">M = (12 + 42) / 4 = 54 / 4 = 13,5</span>
+      <span class="step-label">Intuition</span><br>
+      Le devoir à 14 « pèse » trois fois plus que celui à 12 — la moyenne se rapproche donc davantage de 14 que de 12.
+    `,
+    schema: null },
+
+  // 9 — Volume / agrandissement
+  { question: 'On agrandit un cube en multipliant ses arêtes par <span class="math">2</span>. Par combien son volume est-il multiplié ?',
+    options: ['2', '4', '6', '8'],
+    correct: 3,
+    solution: `
+      <span class="step-label">Règle générale</span><br>
+      Quand on multiplie toutes les longueurs d'une figure par un coefficient <span class="formula">k</span> :<br>
+      • les <strong>longueurs</strong> sont multipliées par <span class="formula">k</span><br>
+      • les <strong>aires</strong> sont multipliées par <span class="formula">k²</span><br>
+      • les <strong>volumes</strong> sont multipliés par <span class="formula">k³</span>
+      <span class="step-label">Application</span><br>
+      Ici <span class="formula">k = 2</span>, donc le volume est multiplié par <span class="formula">2³ = 8</span>.
+      <span class="step-label">Vérification numérique</span><br>
+      Cube de côté 1 : volume = 1³ = 1. Cube de côté 2 : volume = 2³ = 8. Rapport : 8. ✓
+    `,
+    schema: `
+      <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparaison de deux cubes">
+        <g transform="translate(20,40)">
+          <polygon points="0,40 0,80 40,80 40,40" fill="rgba(26,37,64,0.08)" stroke="#1a2540" stroke-width="1.3"/>
+          <polygon points="0,40 15,25 55,25 40,40" fill="rgba(26,37,64,0.05)" stroke="#1a2540" stroke-width="1.3"/>
+          <polygon points="40,40 55,25 55,65 40,80" fill="rgba(26,37,64,0.12)" stroke="#1a2540" stroke-width="1.3"/>
+          <text x="15" y="105" font-family="Inter,sans-serif" font-size="11" fill="#1a2540">V = 1</text>
+        </g>
+        <text x="120" y="92" font-family="Fraunces,serif" font-size="20" fill="#d94f37" font-style="italic">×8</text>
+        <g transform="translate(160,15)">
+          <polygon points="0,40 0,120 80,120 80,40" fill="rgba(217,79,55,0.10)" stroke="#1a2540" stroke-width="1.3"/>
+          <polygon points="0,40 30,10 110,10 80,40" fill="rgba(217,79,55,0.06)" stroke="#1a2540" stroke-width="1.3"/>
+          <polygon points="80,40 110,10 110,90 80,120" fill="rgba(217,79,55,0.15)" stroke="#1a2540" stroke-width="1.3"/>
+          <text x="35" y="145" font-family="Inter,sans-serif" font-size="11" fill="#1a2540" font-weight="600">V = 8</text>
+        </g>
+      </svg>
+    ` },
+
+  // 10 — Problème mixte Pythagore + aire
+  { question: 'Un terrain rectangulaire mesure <span class="math">60 m</span> sur <span class="math">80 m</span>. Quelle est la longueur de sa diagonale ?',
+    options: ['100 m', '120 m', '140 m', '70 m'],
+    correct: 0,
+    solution: `
+      <span class="step-label">Étape 1 — Repérer le triangle rectangle</span><br>
+      La diagonale d'un rectangle le partage en deux triangles rectangles, dont les deux côtés perpendiculaires sont la longueur et la largeur du rectangle.
+      <span class="step-label">Étape 2 — Appliquer Pythagore</span><br>
+      <span class="formula">d² = 60² + 80²</span><br>
+      <span class="formula">d² = 3 600 + 6 400 = 10 000</span>
+      <span class="step-label">Étape 3 — Conclure</span><br>
+      <span class="formula">d = √10 000 = 100 m</span>
+      <span class="step-label">Triplet pythagoricien</span><br>
+      Tu peux remarquer que (60, 80, 100) est un multiple du célèbre triplet (3, 4, 5). À reconnaître à l'œil !
+    `,
+    schema: `
+      <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagonale d'un rectangle">
+        <rect x="40" y="40" width="200" height="100" fill="rgba(26,37,64,0.04)" stroke="#1a2540" stroke-width="1.5"/>
+        <line x1="40" y1="40" x2="240" y2="140" stroke="#d94f37" stroke-width="2"/>
+        <text x="130" y="32" font-family="Inter,sans-serif" font-size="11" fill="#3c4663">80 m</text>
+        <text x="246" y="92" font-family="Inter,sans-serif" font-size="11" fill="#3c4663">60 m</text>
+        <text x="115" y="80" font-family="Inter,sans-serif" font-size="12" fill="#d94f37" font-weight="600" transform="rotate(27 115 80)">d = ?</text>
+      </svg>
+    ` }
+];
+
+// ============================================================
+//  ÉTAT DE L'APPLICATION
+// ============================================================
+const state = {
+  currentIndex: 0,
+  answers: new Array(QUESTIONS.length).fill(null),
+  timeLeft: 3600, // secondes
+  timerInterval: null,
+  startedAt: null,
+  finishedAt: null,
+  studentName: "",
+  // Niveau bonus
+  bonusIndex: 0,
+  bonusAnswers: new Array(BONUS_QUESTIONS.length).fill(null),
+  bonusCompleted: false,
+  bonusTimeLeft: 5400, // 1h30 = 5400s
+  bonusTimerInterval: null
+};
+
+const BONUS_DURATION = 5400; // 1h30 en secondes
+
+// ============================================================
+//  ÉLÉMENTS DOM
+// ============================================================
+const screens = {
+  intro: document.getElementById('screen-intro'),
+  quiz: document.getElementById('screen-quiz'),
+  bonusIntro: document.getElementById('screen-bonus-intro'),
+  bonus: document.getElementById('screen-bonus'),
+  results: document.getElementById('screen-results')
+};
+
+const els = {
+  startBtn: document.getElementById('btn-start'),
+  nextBtn: document.getElementById('btn-next'),
+  prevBtn: document.getElementById('btn-prev'),
+  restartBtn: document.getElementById('btn-restart'),
+  questionContainer: document.getElementById('question-container'),
+  timer: document.getElementById('timer'),
+  progressText: document.getElementById('progress-text'),
+  progressPercent: document.getElementById('progress-percent'),
+  progressFill: document.getElementById('progress-fill'),
+  nameInput: document.getElementById('student-name'),
+  nameError: document.getElementById('name-error'),
+  finalScore: document.getElementById('final-score'),
+  verdict: document.getElementById('verdict'),
+  statCorrect: document.getElementById('stat-correct'),
+  statWrong: document.getElementById('stat-wrong'),
+  statSkipped: document.getElementById('stat-skipped'),
+  statTime: document.getElementById('stat-time'),
+  reviewList: document.getElementById('review-list'),
+  // Bonus
+  bonusTimer: document.getElementById('bonus-timer'),
+  bonusContainer: document.getElementById('bonus-question-container'),
+  bonusNextBtn: document.getElementById('btn-bonus-next'),
+  bonusPrevBtn: document.getElementById('btn-bonus-prev'),
+  bonusProgressText: document.getElementById('bonus-progress-text'),
+  bonusProgressPercent: document.getElementById('bonus-progress-percent'),
+  bonusProgressFill: document.getElementById('bonus-progress-fill'),
+  bonusCtaWrapper: document.getElementById('bonus-cta-wrapper'),
+  bonusResultsWrapper: document.getElementById('bonus-results-wrapper'),
+  // Intro bonus
+  startBonusConfirmBtn: document.getElementById('btn-start-bonus-confirm'),
+  backResultsBtn: document.getElementById('btn-back-results'),
+  // Download
+  downloadBtn: document.getElementById('btn-download-pdf')
+};
+
+// ============================================================
+//  NAVIGATION D'ÉCRANS
+// ============================================================
+function showScreen(name) {
+  Object.values(screens).forEach(s => s.classList.add('hidden'));
+  screens[name].classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+//  RENDU D'UNE QUESTION
+// ============================================================
+function renderQuestion() {
+  const q = QUESTIONS[state.currentIndex];
+  const i = state.currentIndex;
+
+  els.questionContainer.innerHTML = `
+    <div class="question-card">
+      <div class="level-tag">Niveau ${q.niveau}</div>
+      <div class="q-number">Question ${i + 1} sur ${QUESTIONS.length}</div>
+      <div class="q-text">${q.question}</div>
+      <div class="options">
+        ${q.options.map((opt, idx) => `
+          <label class="option">
+            <input type="radio" name="answer" value="${idx}" ${state.answers[i] === idx ? 'checked' : ''}>
+            <span class="opt-letter">${String.fromCharCode(65 + idx)}</span>
+            <span class="opt-text">${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Listeners
+  els.questionContainer.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.addEventListener('change', e => {
+      state.answers[i] = parseInt(e.target.value, 10);
+    });
+  });
+
+  // Progress
+  const percent = Math.round(((i + 1) / QUESTIONS.length) * 100);
+  els.progressText.textContent = `Question ${i + 1} / ${QUESTIONS.length}`;
+  els.progressPercent.textContent = `${percent}%`;
+  els.progressFill.style.width = `${percent}%`;
+
+  // Boutons
+  els.prevBtn.disabled = i === 0;
+  els.prevBtn.style.opacity = i === 0 ? '0.4' : '1';
+  els.prevBtn.style.cursor = i === 0 ? 'not-allowed' : 'pointer';
+  els.nextBtn.textContent = i === QUESTIONS.length - 1 ? 'Terminer ✓' : 'Suivant →';
+}
+
+// ============================================================
+//  TIMER
+// ============================================================
+function formatTime(s) {
+  if (s >= 3600) {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  }
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+
+function startTimer() {
+  state.startedAt = Date.now();
+  updateTimerDisplay();
+  state.timerInterval = setInterval(() => {
+    state.timeLeft--;
+    updateTimerDisplay();
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timerInterval);
+      finishQuiz(true);
+    }
+  }, 1000);
+}
+
+function updTimerColors() {
+  els.timer.classList.remove('warning', 'critical');
+  if (state.timeLeft <= 300) els.timer.classList.add('critical');     // < 5 min
+  else if (state.timeLeft <= 600) els.timer.classList.add('warning'); // < 10 min
+}
+
+function updateTimerDisplay() {
+  els.timer.textContent = formatTime(state.timeLeft);
+  updTimerColors();
+}
+
+// ============================================================
+//  FIN DU QUIZ & RÉSULTATS
+// ============================================================
+function finishQuiz(timeUp = false) {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.finishedAt = Date.now();
+
+  // Score
+  let correctCount = 0, wrongCount = 0, skippedCount = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (state.answers[i] === null) skippedCount++;
+    else if (state.answers[i] === q.correct) correctCount++;
+    else wrongCount++;
+  });
+
+  const note20 = Math.round((correctCount / QUESTIONS.length) * 20 * 10) / 10;
+  els.finalScore.textContent = note20.toString().replace('.', ',');
+
+  // Verdict
+  let verdict;
+  if (timeUp) verdict = `Temps écoulé. ${getVerdict(note20)}`;
+  else verdict = getVerdict(note20);
+  if (state.studentName) verdict = `Bravo ${state.studentName}, ${verdict.charAt(0).toLowerCase() + verdict.slice(1)}`;
+  els.verdict.textContent = verdict;
+
+  // Stats
+  els.statCorrect.textContent = correctCount;
+  els.statWrong.textContent = wrongCount;
+  els.statSkipped.textContent = skippedCount;
+  const elapsedSec = 3600 - state.timeLeft;
+  els.statTime.textContent = formatTime(elapsedSec);
+
+  // Compte-rendu
+  els.reviewList.innerHTML = QUESTIONS.map((q, i) => {
+    const userAns = state.answers[i];
+    let status, statusLabel;
+    if (userAns === null) { status = 'skipped'; statusLabel = 'Non répondu'; }
+    else if (userAns === q.correct) { status = 'correct'; statusLabel = 'Correct'; }
+    else { status = 'wrong'; statusLabel = 'Incorrect'; }
+
+    const yourAnswer = userAns === null
+      ? '<em>Aucune réponse</em>'
+      : `<span class="${status === 'correct' ? 'answer-correct' : 'answer-wrong'}">${String.fromCharCode(65 + userAns)} — ${q.options[userAns]}</span>`;
+    const goodAnswer = `<span class="answer-correct">${String.fromCharCode(65 + q.correct)} — ${q.options[q.correct]}</span>`;
+
+    return `
+      <div class="review-item ${status}">
+        <div class="review-header">
+          <span class="q-num">Q${i + 1} · ${q.niveau}</span>
+          <span class="status ${status}">${statusLabel}</span>
+        </div>
+        <div class="q-text">${q.question}</div>
+        <div class="review-answers">
+          ${userAns !== null && userAns !== q.correct
+            ? `<div><strong>Ta réponse :</strong> ${yourAnswer}</div><div><strong>Bonne réponse :</strong> ${goodAnswer}</div>`
+            : userAns === null
+              ? `<div><strong>Bonne réponse :</strong> ${goodAnswer}</div>`
+              : `<div><strong>Bonne réponse :</strong> ${goodAnswer}</div>`
+          }
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Affiche le CTA Bonus (toujours accessible)
+  renderBonusCTA();
+  // Si le bonus a déjà été joué, on affiche aussi sa section
+  if (state.bonusCompleted) renderBonusResults();
+
+  showScreen('results');
+}
+
+// ============================================================
+//  NIVEAU BONUS — CTA & rendu
+// ============================================================
+function renderBonusCTA() {
+  // Si le bonus a déjà été joué, on masque le CTA
+  if (state.bonusCompleted) {
+    els.bonusCtaWrapper.innerHTML = '';
+    return;
+  }
+  els.bonusCtaWrapper.innerHTML = `
+    <div class="bonus-cta">
+      <div class="eyebrow">★ Niveau 2 débloqué</div>
+      <h3>Prêt(e) pour le <em>niveau supérieur</em> ?</h3>
+      <p>10 problèmes type Brevet — Thalès, Pythagore, équations, fonctions, pourcentages composés… 1h30 chrono. Note séparée sur 20.</p>
+      <button class="btn" id="btn-start-bonus">Lire les consignes du Niveau 2 →</button>
+    </div>
+  `;
+  document.getElementById('btn-start-bonus').addEventListener('click', () => {
+    showScreen('bonusIntro');
+  });
+}
+
+function startBonus() {
+  state.bonusIndex = 0;
+  state.bonusAnswers.fill(null);
+  state.bonusTimeLeft = BONUS_DURATION;
+  document.body.classList.add('bonus-mode');
+  showScreen('bonus');
+  renderBonusQuestion();
+  startBonusTimer();
+}
+
+function startBonusTimer() {
+  updateBonusTimerDisplay();
+  state.bonusTimerInterval = setInterval(() => {
+    state.bonusTimeLeft--;
+    updateBonusTimerDisplay();
+    if (state.bonusTimeLeft <= 0) {
+      clearInterval(state.bonusTimerInterval);
+      finishBonus(true);
+    }
+  }, 1000);
+}
+
+function updateBonusTimerDisplay() {
+  els.bonusTimer.textContent = formatTime(state.bonusTimeLeft);
+  els.bonusTimer.classList.remove('warning', 'critical');
+  if (state.bonusTimeLeft <= 300) {
+    els.bonusTimer.classList.add('critical');
+  } else if (state.bonusTimeLeft <= 900) {
+    els.bonusTimer.classList.add('warning');
+  }
+}
+
+function renderBonusQuestion() {
+  const q = BONUS_QUESTIONS[state.bonusIndex];
+  const i = state.bonusIndex;
+
+  els.bonusContainer.innerHTML = `
+    <div class="question-card bonus-card">
+      <div class="level-tag">★ Bonus · Brevet</div>
+      <div class="q-number">Problème ${i + 1} sur ${BONUS_QUESTIONS.length}</div>
+      <div class="q-text">${q.question}</div>
+      <div class="options">
+        ${q.options.map((opt, idx) => `
+          <label class="option">
+            <input type="radio" name="bonus-answer" value="${idx}" ${state.bonusAnswers[i] === idx ? 'checked' : ''}>
+            <span class="opt-letter">${String.fromCharCode(65 + idx)}</span>
+            <span class="opt-text">${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  els.bonusContainer.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.addEventListener('change', e => {
+      state.bonusAnswers[i] = parseInt(e.target.value, 10);
+    });
+  });
+
+  // Progress
+  const percent = Math.round(((i + 1) / BONUS_QUESTIONS.length) * 100);
+  els.bonusProgressText.textContent = `Question ${i + 1} / ${BONUS_QUESTIONS.length}`;
+  if (els.bonusProgressPercent) els.bonusProgressPercent.textContent = `${percent}%`;
+  els.bonusProgressFill.style.width = `${percent}%`;
+
+  // Boutons
+  els.bonusPrevBtn.disabled = i === 0;
+  els.bonusPrevBtn.style.opacity = i === 0 ? '0.4' : '1';
+  els.bonusPrevBtn.style.cursor = i === 0 ? 'not-allowed' : 'pointer';
+  els.bonusNextBtn.textContent = i === BONUS_QUESTIONS.length - 1 ? 'Terminer le bonus ✓' : 'Suivant →';
+}
+
+function finishBonus(timeUp = false) {
+  if (state.bonusTimerInterval) clearInterval(state.bonusTimerInterval);
+  state.bonusCompleted = true;
+  state.bonusTimeUp = timeUp;
+  document.body.classList.remove('bonus-mode');
+  renderBonusResults();
+  // On masque le CTA puisque le bonus est joué
+  els.bonusCtaWrapper.innerHTML = '';
+  showScreen('results');
+}
+
+function renderBonusResults() {
+  let correctCount = 0, wrongCount = 0, skippedCount = 0;
+  BONUS_QUESTIONS.forEach((q, i) => {
+    if (state.bonusAnswers[i] === null) skippedCount++;
+    else if (state.bonusAnswers[i] === q.correct) correctCount++;
+    else wrongCount++;
+  });
+
+  // Note sur 20 : 2 points par bonne réponse
+  const note20 = correctCount * 2;
+  const elapsedSec = BONUS_DURATION - state.bonusTimeLeft;
+
+  const reviewHTML = BONUS_QUESTIONS.map((q, i) => {
+    const userAns = state.bonusAnswers[i];
+    let status, statusLabel;
+    if (userAns === null) { status = 'skipped'; statusLabel = 'Non répondu'; }
+    else if (userAns === q.correct) { status = 'correct'; statusLabel = 'Correct'; }
+    else { status = 'wrong'; statusLabel = 'Incorrect'; }
+
+    const yourAnswer = userAns === null
+      ? '<em>Aucune réponse</em>'
+      : `<span class="${status === 'correct' ? 'answer-correct' : 'answer-wrong'}">${String.fromCharCode(65 + userAns)} — ${q.options[userAns]}</span>`;
+    const goodAnswer = `<span class="answer-correct">${String.fromCharCode(65 + q.correct)} — ${q.options[q.correct]}</span>`;
+
+    const schemaHTML = q.schema ? `
+      <div class="review-schema">
+        ${q.schema}
+        <div class="schema-caption">Schéma explicatif</div>
+      </div>
+    ` : '';
+
+    return `
+      <div class="review-item ${status}">
+        <div class="review-header">
+          <span class="q-num">B${i + 1} · ★ Niveau 2</span>
+          <span class="status ${status}">${statusLabel}</span>
+        </div>
+        <div class="q-text">${q.question}</div>
+        <div class="review-answers">
+          ${userAns !== null && userAns !== q.correct
+            ? `<div><strong>Ta réponse :</strong> ${yourAnswer}</div><div><strong>Bonne réponse :</strong> ${goodAnswer}</div>`
+            : `<div><strong>Bonne réponse :</strong> ${goodAnswer}</div>`}
+        </div>
+        <div class="review-hint"><strong>Correction détaillée :</strong>${q.solution}</div>
+        ${schemaHTML}
+      </div>
+    `;
+  }).join('');
+
+  els.bonusResultsWrapper.innerHTML = `
+    <div class="bonus-results-section">
+      <div class="bonus-score-line">
+        <span class="label">★ Niveau 2 · Brevet</span>
+        <span class="score">${note20.toString().replace('.', ',')}<span class="sep">/</span><span class="max">20</span></span>
+      </div>
+      <p class="subtitle" style="font-style: italic; color: var(--ink-soft); margin-bottom: 28px;">
+        ${state.bonusTimeUp ? 'Temps écoulé. ' : ''}${getBonusVerdict(note20, correctCount, skippedCount)}
+      </p>
+      <div class="stats-grid" style="margin-bottom: 32px;">
+        <div class="stat">
+          <div class="stat-label">Bonnes</div>
+          <div class="stat-value good">${correctCount}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Fausses</div>
+          <div class="stat-value bad">${wrongCount}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Sans rép.</div>
+          <div class="stat-value">${skippedCount}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Temps</div>
+          <div class="stat-value" style="font-size: 24px;">${formatTime(elapsedSec)}</div>
+        </div>
+      </div>
+      <h2 style="font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; margin-bottom: 8px; letter-spacing: -0.01em;">
+        Correction du Niveau 2
+      </h2>
+      <p class="subtitle">Chaque problème est expliqué étape par étape, avec schéma quand c'est utile.</p>
+      ${reviewHTML}
+    </div>
+  `;
+}
+
+function getBonusVerdict(note, correct, skipped) {
+  if (note === 20) return "Sans-faute ! Niveau Brevet maîtrisé de bout en bout.";
+  if (note >= 16) return "Excellent niveau Brevet, tu es prêt(e) pour l'épreuve.";
+  if (note >= 12) return "Bon résultat sur ce niveau exigeant.";
+  if (note >= 8) return "Niveau correct, certains chapitres méritent d'être retravaillés.";
+  if (skipped === BONUS_QUESTIONS.length) return "Niveau 2 non tenté — n'hésite pas à revenir essayer !";
+  return "Les problèmes sont durs, mais avec de l'entraînement tout deviendra plus clair.";
+}
+
+function getVerdict(note) {
+  if (note >= 18) return "Excellent ! Maîtrise remarquable du programme.";
+  if (note >= 16) return "Très bon résultat, niveau solide.";
+  if (note >= 14) return "Bon travail, des bases bien acquises.";
+  if (note >= 12) return "Résultat correct, continue de réviser.";
+  if (note >= 10) return "Tu as la moyenne, mais des chapitres sont à retravailler.";
+  if (note >= 8)  return "Encore quelques efforts à fournir, ne te décourage pas.";
+  if (note >= 5)  return "Il faut réviser plus en profondeur. Reprends les bases !";
+  return "Il y a beaucoup à reprendre, mais c'est en s'entraînant qu'on progresse.";
+}
+
+// ============================================================
+//  TÉLÉCHARGEMENT PDF
+// ============================================================
+function stripHTML(html) {
+  // Convertit HTML simple (math, frac, sup, sub) en texte plat lisible
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  // Gérer les fractions
+  tmp.querySelectorAll('.frac').forEach(f => {
+    const num = f.querySelector('.num')?.textContent || '';
+    const den = f.querySelector('.den')?.textContent || '';
+    f.replaceWith(`(${num}/${den})`);
+  });
+  // Gérer les exposants
+  tmp.querySelectorAll('sup').forEach(s => s.replaceWith(`^${s.textContent}`));
+  tmp.querySelectorAll('sub').forEach(s => s.replaceWith(`_${s.textContent}`));
+  return tmp.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function svgToPngDataURL(svgString, width = 280, height = 200) {
+  return new Promise((resolve) => {
+    const svg = svgString.trim();
+    const svg64 = btoa(unescape(encodeURIComponent(svg)));
+    const image64 = 'data:image/svg+xml;base64,' + svg64;
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const scale = 2; // résolution doublée pour netteté
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fffefa';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => resolve(null);
+    img.src = image64;
+  });
+}
+
+async function downloadResultsPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 18;
+  const maxWidth = pageWidth - 2 * margin;
+  let y = margin;
+
+  // Couleurs
+  const INK = [26, 37, 64];
+  const ACCENT = [217, 79, 55];
+  const INK_SOFT = [60, 70, 99];
+  const SUCCESS = [47, 107, 63];
+
+  // Helper saut de page
+  function ensureSpace(needed) {
+    if (y + needed > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+  }
+
+  function addWrappedText(text, options = {}) {
+    const fontSize = options.fontSize || 10;
+    const lineHeight = options.lineHeight || fontSize * 0.45;
+    const color = options.color || INK;
+    const style = options.style || 'normal';
+    doc.setFontSize(fontSize);
+    doc.setFont('helvetica', style);
+    doc.setTextColor(...color);
+    const lines = doc.splitTextToSize(text, options.width || maxWidth);
+    for (const line of lines) {
+      ensureSpace(lineHeight);
+      doc.text(line, options.x || margin, y);
+      y += lineHeight;
+    }
+  }
+
+  // ====== EN-TÊTE ======
+  doc.setFillColor(...INK);
+  doc.rect(0, 0, pageWidth, 30, 'F');
+  doc.setFillColor(...ACCENT);
+  doc.rect(0, 30, pageWidth, 1.5, 'F');
+
+  doc.setTextColor(...ACCENT);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.text('ÉVALUATION · COLLÈGE', margin, 12);
+
+  doc.setTextColor(244, 237, 224);
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Résultats — QCM Mathématiques', margin, 22);
+
+  y = 42;
+
+  // ====== INFOS ÉLÈVE ======
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const timeStr = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+  doc.setDrawColor(201, 188, 160);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 6;
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...INK_SOFT);
+  doc.text('ÉLÈVE', margin, y);
+  doc.text('DATE', margin + 60, y);
+  doc.text('HEURE', margin + 110, y);
+  y += 5;
+
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...INK);
+  doc.text(state.studentName || '—', margin, y);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text(dateStr.charAt(0).toUpperCase() + dateStr.slice(1), margin + 60, y);
+  doc.text(timeStr, margin + 110, y);
+  y += 4;
+  doc.setDrawColor(201, 188, 160);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 10;
+
+  // ====== SCORE NIVEAU 1 ======
+  let correctCount = 0, wrongCount = 0, skippedCount = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (state.answers[i] === null) skippedCount++;
+    else if (state.answers[i] === q.correct) correctCount++;
+    else wrongCount++;
+  });
+  const note20 = Math.round((correctCount / QUESTIONS.length) * 20 * 10) / 10;
+  const elapsedSec = 3600 - state.timeLeft;
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...ACCENT);
+  doc.text('NIVEAU 1 — QCM COLLÈGE (6ᵉ · 5ᵉ · 4ᵉ)', margin, y);
+  y += 8;
+
+  // Bloc score
+  doc.setFillColor(255, 250, 240);
+  doc.setDrawColor(...INK);
+  doc.setLineWidth(0.4);
+  doc.rect(margin, y, maxWidth, 28, 'FD');
+
+  doc.setTextColor(...INK);
+  doc.setFontSize(32);
+  doc.setFont('helvetica', 'bold');
+  doc.text(note20.toString().replace('.', ','), margin + 8, y + 20);
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...INK_SOFT);
+  doc.text('/ 20', margin + 40, y + 20);
+
+  doc.setFontSize(9);
+  doc.setTextColor(...SUCCESS);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`✓ ${correctCount} bonnes`, margin + 70, y + 10);
+  doc.setTextColor(...ACCENT);
+  doc.text(`✗ ${wrongCount} fausses`, margin + 70, y + 17);
+  doc.setTextColor(...INK_SOFT);
+  doc.text(`○ ${skippedCount} sans réponse`, margin + 70, y + 24);
+
+  doc.setTextColor(...INK_SOFT);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Temps écoulé : ${formatTime(elapsedSec)}`, margin + 130, y + 10);
+
+  y += 36;
+
+  // ====== DÉTAIL NIVEAU 1 ======
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...INK);
+  ensureSpace(10);
+  doc.text('Détail des réponses', margin, y);
+  y += 6;
+
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    const q = QUESTIONS[i];
+    const userAns = state.answers[i];
+    const isCorrect = userAns === q.correct;
+    const isSkipped = userAns === null;
+
+    ensureSpace(20);
+
+    // Pavé de gauche couleur
+    const stripColor = isSkipped ? INK_SOFT : (isCorrect ? SUCCESS : ACCENT);
+    doc.setFillColor(...stripColor);
+    doc.rect(margin, y, 1.2, 16, 'F');
+
+    // Numéro + niveau
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(...INK_SOFT);
+    doc.text(`Q${i + 1} · ${stripHTML(q.niveau)}`, margin + 3, y + 4);
+
+    // Statut
+    doc.setTextColor(...stripColor);
+    const statusText = isSkipped ? 'NON RÉPONDU' : (isCorrect ? 'CORRECT' : 'INCORRECT');
+    doc.text(statusText, pageWidth - margin - 30, y + 4);
+
+    // Question
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...INK);
+    const qLines = doc.splitTextToSize(stripHTML(q.question), maxWidth - 6);
+    let lineY = y + 8;
+    for (const line of qLines.slice(0, 2)) {
+      doc.text(line, margin + 3, lineY);
+      lineY += 4;
+    }
+    y = lineY + 1;
+
+    // Réponses
+    doc.setFontSize(8);
+    if (!isCorrect && !isSkipped) {
+      doc.setTextColor(...ACCENT);
+      doc.text(`Ta réponse : ${String.fromCharCode(65 + userAns)} — ${stripHTML(q.options[userAns])}`, margin + 3, y);
+      y += 3.5;
+    }
+    doc.setTextColor(...SUCCESS);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Bonne réponse : ${String.fromCharCode(65 + q.correct)} — ${stripHTML(q.options[q.correct])}`, margin + 3, y);
+    y += 6;
+  }
+
+  // ====== NIVEAU 2 (si joué) ======
+  if (state.bonusCompleted) {
+    doc.addPage();
+    y = margin;
+
+    let bCorrect = 0, bWrong = 0, bSkipped = 0;
+    BONUS_QUESTIONS.forEach((q, i) => {
+      if (state.bonusAnswers[i] === null) bSkipped++;
+      else if (state.bonusAnswers[i] === q.correct) bCorrect++;
+      else bWrong++;
+    });
+    const bNote20 = bCorrect * 2;
+    const bElapsed = BONUS_DURATION - state.bonusTimeLeft;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...ACCENT);
+    doc.text('★ NIVEAU 2 — PROBLÈMES TYPE BREVET', margin, y);
+    y += 8;
+
+    // Bloc score
+    doc.setFillColor(26, 37, 64);
+    doc.rect(margin, y, maxWidth, 28, 'F');
+
+    doc.setTextColor(244, 237, 224);
+    doc.setFontSize(32);
+    doc.setFont('helvetica', 'bold');
+    doc.text(bNote20.toString().replace('.', ','), margin + 8, y + 20);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.text('/ 20', margin + 40, y + 20);
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...ACCENT);
+    doc.text(`★ ${bCorrect} bonnes`, margin + 70, y + 10);
+    doc.setTextColor(244, 237, 224);
+    doc.text(`✗ ${bWrong} fausses`, margin + 70, y + 17);
+    doc.text(`○ ${bSkipped} sans réponse`, margin + 70, y + 24);
+
+    doc.text(`Temps : ${formatTime(bElapsed)}${state.bonusTimeUp ? ' (temps écoulé)' : ''}`, margin + 130, y + 10);
+
+    y += 36;
+
+    // Correction détaillée
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...INK);
+    doc.text('Correction détaillée', margin, y);
+    y += 7;
+
+    for (let i = 0; i < BONUS_QUESTIONS.length; i++) {
+      const q = BONUS_QUESTIONS[i];
+      const userAns = state.bonusAnswers[i];
+      const isCorrect = userAns === q.correct;
+      const isSkipped = userAns === null;
+
+      // Estimer la place : on lance toujours sur nouvelle page si moins de 80mm dispo
+      const schemaSize = q.schema ? 50 : 0;
+      ensureSpace(70 + schemaSize);
+
+      const stripColor = isSkipped ? INK_SOFT : (isCorrect ? SUCCESS : ACCENT);
+
+      // Bandeau titre
+      doc.setFillColor(245, 240, 230);
+      doc.rect(margin, y, maxWidth, 8, 'F');
+      doc.setFillColor(...stripColor);
+      doc.rect(margin, y, 1.5, 8, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(...INK_SOFT);
+      doc.text(`B${i + 1} · NIVEAU 2`, margin + 4, y + 5.5);
+      doc.setTextColor(...stripColor);
+      const statusText = isSkipped ? 'NON RÉPONDU' : (isCorrect ? 'CORRECT' : 'INCORRECT');
+      doc.text(statusText, pageWidth - margin - 30, y + 5.5);
+      y += 11;
+
+      // Question
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(...INK);
+      const qText = stripHTML(q.question);
+      const qLines = doc.splitTextToSize(qText, maxWidth);
+      for (const line of qLines) {
+        ensureSpace(5);
+        doc.text(line, margin, y);
+        y += 4.5;
+      }
+      y += 1;
+
+      // Réponses
+      doc.setFontSize(9);
+      if (!isCorrect && !isSkipped) {
+        doc.setTextColor(...ACCENT);
+        doc.setFont('helvetica', 'normal');
+        ensureSpace(5);
+        doc.text(`Ta réponse : ${String.fromCharCode(65 + userAns)} — ${stripHTML(q.options[userAns])}`, margin, y);
+        y += 4.5;
+      }
+      doc.setTextColor(...SUCCESS);
+      doc.setFont('helvetica', 'bold');
+      ensureSpace(5);
+      doc.text(`Bonne réponse : ${String.fromCharCode(65 + q.correct)} — ${stripHTML(q.options[q.correct])}`, margin, y);
+      y += 6;
+
+      // Correction détaillée
+      doc.setFillColor(245, 240, 230);
+      const solutionText = stripHTML(q.solution);
+      // Découper le solution en lignes
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      const solLines = doc.splitTextToSize(solutionText, maxWidth - 8);
+      const solHeight = solLines.length * 4 + 8;
+      ensureSpace(solHeight);
+      doc.rect(margin, y, maxWidth, solHeight, 'F');
+      doc.setDrawColor(...INK_SOFT);
+      doc.setLineWidth(0.5);
+      doc.line(margin, y, margin, y + solHeight);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...ACCENT);
+      doc.text('CORRECTION DÉTAILLÉE', margin + 4, y + 5);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(...INK);
+      let solY = y + 10;
+      for (const line of solLines) {
+        doc.text(line, margin + 4, solY);
+        solY += 4;
+      }
+      y += solHeight + 3;
+
+      // Schéma si dispo
+      if (q.schema) {
+        ensureSpace(50);
+        const pngData = await svgToPngDataURL(q.schema, 280, 200);
+        if (pngData) {
+          const imgWidth = 80;
+          const imgHeight = 57;
+          const imgX = margin + (maxWidth - imgWidth) / 2;
+          doc.setFillColor(255, 254, 250);
+          doc.rect(imgX - 3, y, imgWidth + 6, imgHeight + 8, 'F');
+          doc.setDrawColor(201, 188, 160);
+          if (typeof doc.setLineDashPattern === 'function') {
+            doc.setLineDashPattern([1, 1], 0);
+          }
+          doc.rect(imgX - 3, y, imgWidth + 6, imgHeight + 8, 'S');
+          if (typeof doc.setLineDashPattern === 'function') {
+            doc.setLineDashPattern([], 0);
+          }
+          doc.addImage(pngData, 'PNG', imgX, y + 2, imgWidth, imgHeight);
+          doc.setFontSize(7);
+          doc.setTextColor(...INK_SOFT);
+          doc.setFont('helvetica', 'normal');
+          doc.text('SCHÉMA EXPLICATIF', imgX, y + imgHeight + 6);
+          y += imgHeight + 12;
+        }
+      }
+      y += 4;
+    }
+  }
+
+  // ====== PIED DE PAGE SUR CHAQUE PAGE ======
+  const totalPages = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...INK_SOFT);
+    doc.text(`Page ${p} / ${totalPages}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+    doc.text(`QCM Mathématiques Collège — ${state.studentName || 'élève'}`, margin, pageHeight - 8);
+  }
+
+  // ====== SAUVEGARDE ======
+  const safeName = (state.studentName || 'eleve').toLowerCase().replace(/[^a-z0-9]+/gi, '-');
+  const datePart = now.toISOString().slice(0, 10);
+  doc.save(`resultats-qcm-maths-${safeName}-${datePart}.pdf`);
+}
+
+// ============================================================
+//  ÉVÉNEMENTS
+// ============================================================
+els.startBtn.addEventListener('click', () => {
+  const name = els.nameInput.value.trim();
+  if (!name) {
+    els.nameError.classList.add('show');
+    els.nameInput.classList.add('error');
+    els.nameInput.focus();
+    return;
+  }
+  els.nameError.classList.remove('show');
+  els.nameInput.classList.remove('error');
+  state.studentName = name;
+  showScreen('quiz');
+  renderQuestion();
+  startTimer();
+});
+
+// Le message d'erreur disparaît dès qu'on tape
+els.nameInput.addEventListener('input', () => {
+  if (els.nameInput.value.trim()) {
+    els.nameError.classList.remove('show');
+    els.nameInput.classList.remove('error');
+  }
+});
+
+els.nextBtn.addEventListener('click', () => {
+  if (state.currentIndex === QUESTIONS.length - 1) {
+    finishQuiz();
+  } else {
+    state.currentIndex++;
+    renderQuestion();
+  }
+});
+
+els.prevBtn.addEventListener('click', () => {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderQuestion();
+  }
+});
+
+els.restartBtn.addEventListener('click', () => {
+  state.currentIndex = 0;
+  state.answers.fill(null);
+  state.timeLeft = 3600;
+  state.startedAt = null;
+  state.finishedAt = null;
+  els.nameInput.value = '';
+  state.studentName = '';
+  // Reset bonus
+  state.bonusIndex = 0;
+  state.bonusAnswers.fill(null);
+  state.bonusCompleted = false;
+  state.bonusTimeLeft = BONUS_DURATION;
+  state.bonusTimeUp = false;
+  if (state.bonusTimerInterval) clearInterval(state.bonusTimerInterval);
+  document.body.classList.remove('bonus-mode');
+  els.bonusCtaWrapper.innerHTML = '';
+  els.bonusResultsWrapper.innerHTML = '';
+  // Reset visuel timer
+  els.timer.classList.remove('warning', 'critical');
+  els.bonusTimer.classList.remove('warning', 'critical');
+  showScreen('intro');
+});
+
+// ====== Avertissement bonus ======
+els.startBonusConfirmBtn.addEventListener('click', startBonus);
+els.backResultsBtn.addEventListener('click', () => showScreen('results'));
+
+// ====== Téléchargement PDF ======
+els.downloadBtn.addEventListener('click', downloadResultsPDF);
+
+// ====== Niveau Bonus : navigation ======
+els.bonusNextBtn.addEventListener('click', () => {
+  if (state.bonusIndex === BONUS_QUESTIONS.length - 1) {
+    finishBonus();
+  } else {
+    state.bonusIndex++;
+    renderBonusQuestion();
+  }
+});
+
+els.bonusPrevBtn.addEventListener('click', () => {
+  if (state.bonusIndex > 0) {
+    state.bonusIndex--;
+    renderBonusQuestion();
+  }
+});
+
+// Raccourcis clavier
+document.addEventListener('keydown', (e) => {
+  // Quiz principal
+  if (!screens.quiz.classList.contains('hidden')) {
+    if (e.key === 'ArrowRight') els.nextBtn.click();
+    if (e.key === 'ArrowLeft' && !els.prevBtn.disabled) els.prevBtn.click();
+    if (['1','2','3','4'].includes(e.key)) {
+      const idx = parseInt(e.key) - 1;
+      const radios = els.questionContainer.querySelectorAll('input[type="radio"]');
+      if (radios[idx]) {
+        radios[idx].checked = true;
+        radios[idx].dispatchEvent(new Event('change'));
+      }
+    }
+    return;
+  }
+  // Quiz bonus
+  if (!screens.bonus.classList.contains('hidden')) {
+    if (e.key === 'ArrowRight') els.bonusNextBtn.click();
+    if (e.key === 'ArrowLeft' && !els.bonusPrevBtn.disabled) els.bonusPrevBtn.click();
+    if (['1','2','3','4'].includes(e.key)) {
+      const idx = parseInt(e.key) - 1;
+      const radios = els.bonusContainer.querySelectorAll('input[type="radio"]');
+      if (radios[idx]) {
+        radios[idx].checked = true;
+        radios[idx].dispatchEvent(new Event('change'));
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
